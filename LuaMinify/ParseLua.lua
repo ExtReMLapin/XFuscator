@@ -25,7 +25,7 @@ local HexDigits = lookupify{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 local Symbols = lookupify{'+', '-', '*', '/', '^', '%', ',', '{', '}', '[', ']', '(', ')', ';', '#'}
 
 local Keywords = lookupify{
-    'and', 'break', 'do', 'else', 'elseif',
+    'and', '||', '&&','break', 'continue', 'do', 'else', 'elseif',
     'end', 'false', 'for', 'function', 'goto', 'if',
     'in', 'local', 'nil', 'not', 'or', 'repeat',
     'return', 'then', 'true', 'until', 'while',
@@ -327,6 +327,12 @@ function LexLua(src)
 					toEmit = {Type = 'Symbol', Data = '~='}
 				else
 					generateError("Unexpected symbol `~` in source.", 2)
+				end
+			elseif consume('!') then
+				if consume('=') then
+					toEmit = {Type = 'Symbol', Data = '!='}
+				else
+					generateError("Unexpected symbol `!` in source.", 2)
 				end
 
 			elseif consume('.') then
@@ -901,10 +907,13 @@ function ParseLua(src)
 		['<'] = {3,3};
 		['<='] = {3,3};
 		['~='] = {3,3};
+		['!='] = {3,3};
 		['>'] = {3,3};
 		['>='] = {3,3};
 		['and'] = {2,2};
+		['&&'] = {2,2};
 		['or'] = {1,1};
+		['||'] = {1,1};
 	}
 	function ParseSubExpr(scope, level)
 		--base item, possibly with unop prefix
@@ -1231,6 +1240,11 @@ getWSAndComments()
 			stat = nodeReturn
 
 		elseif tok:ConsumeKeyword('break') then
+			local nodeBreak = {}
+			nodeBreak.AstType = 'BreakStatement'
+			stat = nodeBreak
+
+		elseif tok:ConsumeKeyword('continue') then
 			local nodeBreak = {}
 			nodeBreak.AstType = 'BreakStatement'
 			stat = nodeBreak
