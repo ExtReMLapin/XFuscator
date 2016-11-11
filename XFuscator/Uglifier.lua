@@ -1,10 +1,10 @@
 return function(a)
     local dumpString = XFuscator.DumpString
     
-    local keywords = { "and", "break", "do", "else", "elseif",
+    local keywords = { "continue", "and", "break", "do", "else", "elseif",
     "end", "false", "for", "function", "if",
         "in", "local", "nil", "not", "or", "repeat",
-            "return", "then", "true", "until", "while" }
+            "return", "then", "true", "until", "while", "||", "&&" }
 
     -- make code SMALL
     local wordMap = {
