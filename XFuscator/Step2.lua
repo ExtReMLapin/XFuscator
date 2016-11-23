@@ -5,7 +5,7 @@ return function(a, GenerateFluff, useTD)
     local __X = math.random()
     a2 = [[ math.randomseed(]] .. __X .. [[)
 local ____
-____ = { function(...) local t = { ...} return ____[8](t) end, print, game, math.frexp, math.random(1, 1100), string.dump, string.sub, table.concat, wait, tick, loadstring, "t", function(x) local x2 = loadstring(x) if x2 then return ____[tonumber("\50\48")](function() x2() end) else return nil end end, "InsertService", 1234567890, getfenv, "", "wai", 7.2, pcall, math.pi, "" }
+____ = { function(...) local t = { ...} return ____[8](t) end, print, game, math.frexp, math.random(1, 1100), string.dump, string.sub, table.concat, wait, tick, CompileString, "t", function(x) local x2 = CompileString(x, '') if x2 then return ____[tonumber("\50\48")](function() x2() end) else return nil end end, "InsertService", 1234567890, getfenv, "", "wai", 7.2, pcall, math.pi, "" }
 ]] .. GenerateFluff() .. [[local ___ = ____[5]
 ]] .. GenerateFluff() .. [[local _ = function(x) return string.char(x / ___) end
 ]] .. GenerateFluff() .. [[local __ = {]]

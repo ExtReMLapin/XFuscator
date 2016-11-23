@@ -1,11 +1,11 @@
 require'XFuscator.init'
 
---[[print(('-'):rep(79))
+print(('-'):rep(79))
 print("------------------ XFUSCATOR - THE BEST LUA OBFUSCATOR 3V4R ------------------")
 print("------------------------ Copyright (C) 2012-2013 LoDC ------------------------")
 print("---------- Version 2.0 b1 : https://github.com/mlnlover11/XFuscator ----------")
 print(('-'):rep(79))
-print()]]
+print()
 
 local code = [[
 local function printhi()
@@ -115,21 +115,20 @@ if not result then
 else
     local a, b = loadstring(result)
     if a then
-        --print"-- Successful!"
+        print"-- Successful!"
         if not outfn then
-            --print("Output: ", a())
+            print("Output: ", a())
         end
     else
         print("-- Failed: " .. b)
     end
     
     if outfn then
-    local result2 = result
-    --result2:gsub("')()", "')")
-    result2 = string.gsub(result2, "return loadstring", "RunString")
-    result2 = string.sub(result2,0, result2:len()-2)
-    print(result2)
-     -- print("Written to:", outfn)
+        local f = io.open(outfn, 'wb')
+        f:write(result)
+        f:close()
+        print("Written to:", outfn)
     end
 end
 
+print("-- Time taken:", t2 - t1)

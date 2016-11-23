@@ -55,24 +55,24 @@ local function obfuscate(code, level, mxLevel, useLoadstring, makeFluff, randomC
     
     math.randomseed(os and os.time() or tick())
     
-    --print("Inital parsing ...")
+    print("Inital parsing ...")
     local str = ""
     local success, ast = ParseLua(code)
     if not success then
         error("Failed to parse code: " .. ast)
     end
     
-    --print("Extracting constants ...")
+    print("Extracting constants ...")
     XFuscator.ExtractConstants(code, ast)
     
     if encryptConstants then
-       -- print("Encrypting constants ...")
+       print("Encrypting constants ...")
         XFuscator.EncryptStrings(ast)
     end
     
     local a = Format_Mini(ast)
     if useUglifier then
-       -- print("Uglifying ...")
+       print("Uglifying ...")
         a = XFuscator.Uglify(a)
     end
     
@@ -89,21 +89,21 @@ local function obfuscate(code, level, mxLevel, useLoadstring, makeFluff, randomC
     a = Format_Mini(ast) -- Extra security (renames code from 'tmp' and CONSTANT_POOL, and constant encryption)
     
     if useLoadstring then
-       -- print("Precompiling ...")
+       print("Precompiling ...")
         a = XFuscator.Precompile(a)
     end
     
     local a2
     if step2 == true then
-       -- print("Step 2 ...")
+       print("Step 2 ...")
         -- Convert to char/table/loadstring thing
         a2 = XFuscator.Step2(a, GenerateFluff, useTD)
     else
-        a2 = "return loadstring('" .. dumpString(a) .. "')()"
+        a2 = "return CompileString('" .. dumpString(a) .. "', \"\")()"
     end
     
     if randomComments then
-       -- print("Inserting unreadable and pointless comments ...")
+       print("Inserting unreadable and pointless comments ...")
         a2 = XFuscator.RandomComments(a2)
     end
     
@@ -114,10 +114,10 @@ local function obfuscate(code, level, mxLevel, useLoadstring, makeFluff, randomC
     
     --a2 = a2 .. GenerateFluff() TODO
     if level < mxLevel then
-       -- print(concat("OBFUSCATED AT LEVEL ", level, " OUT OF ", mxLevel, " (" .. a:len() .. " Obfuscated characters)"))
+       print(concat("OBFUSCATED AT LEVEL ", level, " OUT OF ", mxLevel, " (" .. a:len() .. " Obfuscated characters)"))
         return obfuscate(a2, level + 1, mxLevel)
     else
-      --  print(concat("OBFUSCATED AT LEVEL ", level, " OUT OF ", mxLevel, " (", a:len(), " Obfuscated Characters) [Done]"))
+      print(concat("OBFUSCATED AT LEVEL ", level, " OUT OF ", mxLevel, " (", a:len(), " Obfuscated Characters) [Done]"))
         return a2
     end
 end
